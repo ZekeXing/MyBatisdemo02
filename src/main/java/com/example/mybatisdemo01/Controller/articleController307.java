@@ -49,8 +49,8 @@ public class articleController307 {
         return"index307.html";
     }
 
-    @RequestMapping("/fileUp307/{aid}")
-    public String fileUpload(String title, List<MultipartFile> uploadfile, HttpServletRequest request, Model model,@PathVariable("aid") Integer aid) {
+    @RequestMapping("/fileUp307")
+    public String fileUpload(String title, List<MultipartFile> uploadfile, HttpServletRequest request, Model model,Integer aid) {
         System.out.println(title);
         System.out.println(uploadfile);
         System.out.println(request);
@@ -90,7 +90,7 @@ public class articleController307 {
 //        }else{
 //            return"error";
 //        }
-        return null;
+        return "error";
     }
 
 

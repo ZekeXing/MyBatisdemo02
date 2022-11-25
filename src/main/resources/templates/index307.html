@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/bootstrap-5.0.2-dist/css/bootstrap.css" >
+    <link rel="stylesheet" href="/bootstrap-5.0.2-dist/css/bootstrap.css">
     <script src="/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
 </head>
 <script>
-    function check(){
+    function check() {
         var name = document.getElementById("title").value;
         var file = document.getElementById("uploadfile").value;
-        if(name==""){
+        if (name == "") {
             alert("填写文件标题");
             return false;
         }
-        if(file.length==0||file==""){
+        if (file.length == 0 || file == "") {
             alert("请选择上传文件");
             return false;
         }
         return true;
     }
-    function getid(id){
+
+    function getid(id) {
         alert(id)
         $("#id").val(id)
 
@@ -31,10 +32,11 @@
 <!--articlelist-->
 <div class="bg-info m-auto" th:each="row:${article}">
     <h3 class="text-muted" th:text="${row.title}"></h3>
-    <button type="button" class="btn btn-warning" data-bs-toggle="modal"  data-bs-target="#FileUp"
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#FileUp"
             th:data-id="${row.aid}"
-            onclick="getid(this.getAttribute('data-id'))">上传文件</button>
-    <button type="button" class="btn btn-success" >下载文件</button>
+            onclick="getid(this.getAttribute('data-id'))">上传文件
+    </button>
+    <button type="button" class="btn btn-success">下载文件</button>
 
     <p th:text="${row.content}"></p>
 
@@ -52,9 +54,9 @@
             </div>
 
             <!-- 模态框内容 -->
-            <form role="aform"  method="post" enctype="multipart/form-data" onsubmit="return check()">
+            <form  role="aform" th:action="@{/fileUp307}"
+                  method="post" enctype="multipart/form-data" onsubmit="return check()">
                 <input type="hidden" id="id" name="aid">
-
                 <div class="modal-body">
                     <div class="container">
 
