@@ -1,6 +1,6 @@
 package com.example.mybatisdemo01.service;
 
-import com.example.mybatisdemo01.Dao.ArticleDao;
+import com.example.mybatisdemo01.Dao.ArticleDao307;
 import com.example.mybatisdemo01.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ArticleService {
+public class ArticleService307 {
 
     @Autowired
-    ArticleDao dao;
+    ArticleDao307 dao;
 
     public List<Article> getArtilcelist() {
         return dao.selectByExample();

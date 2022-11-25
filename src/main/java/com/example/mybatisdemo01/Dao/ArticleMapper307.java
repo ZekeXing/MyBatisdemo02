@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface ArticleMapper {
+public interface ArticleMapper307 {
 
     public Article[] getArticle();
 

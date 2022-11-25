@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/bootstrap-5.0.2-dist/css/bootstrap.css" >
+    <script src="/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
+</head>
+<script>
+    // function check(){
+    //     var name = document.getElementById("title").value;
+    //     var file = document.getElementById("uploadfile").value;
+    //     if(name==""){
+    //         alert("填写文件标题");
+    //         return false;
+    //     }
+    //     if(file.length==0||file==""){
+    //         alert("请选择上传文件");
+    //         return false;
+    //     }
+    //     return true;
+    // }
+    function getid(id){
+        $("#id").val(id)
+    }
+</script>
+<body>
+<!--articlelist-->
+<div class="bg-info m-auto" th:each="row:${article}">
+    <h3 class="text-muted" th:text="${row.title}"></h3>
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal"  data-bs-target="#FileUp" th:data-id="${row.aid}" onclick="getid(this.getAttribute('data-id'))">上传文件</button>
+    <button type="button" class="btn btn-success" >下载文件</button>
+
+    <p th:text="${row.content}"></p>
+
+</div>
+
+<!--文件上传模态框-->
+<div class="modal" id="FileUp">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">文件上传</h4>
+                <input type="hidden" class="form-control" id="id" name="aid">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- 模态框内容 -->
+            <form role="form" th:action="@{/fileUp307/${row.aid} }"
+                  method="post" enctype="multipart/form-data" onsubmit="return check()">
+                <div class="modal-body">
+                    <div class="container">
+
+                        <div class="mb-3 row">
+                            <label for="title" class="col-sm-2 col-form-label">标题</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="title" id="title">
+                            </div>
+                        </div>
+                        <div class="mb-3 col-sm-7">
+                            <input class="form-control" type="file" name="uploadfile" id="uploadfile" multiple>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal">上传</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -2,7 +2,7 @@ package com.example.mybatisdemo01.Dao;
 
 import com.example.mybatisdemo01.entity.Comment;
 
-public interface CommentDao {
+public interface CommentDao307 {
     int deleteByPrimaryKey(Integer cid);
 
     int insert(Comment record);

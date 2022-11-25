@@ -1,9 +1,9 @@
 package com.example.mybatisdemo01.Controller;
 
-import com.example.mybatisdemo01.Dao.ArticleDao;
-import com.example.mybatisdemo01.Dao.ArticleMapper;
+import com.example.mybatisdemo01.Dao.ArticleDao307;
+import com.example.mybatisdemo01.Dao.ArticleMapper307;
 import com.example.mybatisdemo01.entity.Article;
-import com.example.mybatisdemo01.service.ArticleService;
+import com.example.mybatisdemo01.service.ArticleService307;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class articleController {
+public class articleController307 {
     @Autowired
-    ArticleMapper articleMapper;
+    ArticleMapper307 articleMapper307;
     @Autowired
-    ArticleDao articleDao;
+    ArticleDao307 articleDao307;
 
     @Autowired
-    ArticleService articleService;
+    ArticleService307 articleService307;
 
     @RequestMapping("/a")
     public String Mybatis(Model model){
-        Article article[] = articleMapper.getArticle();
+        Article article[] = articleMapper307.getArticle();
         model.addAttribute("article",article);
-        return "index.html";
+        return "index307.html";
     }
 
     @RequestMapping("/b")
@@ -38,9 +38,9 @@ public class articleController {
 //        System.out.println(articleList);
 //        System.out.println(articleList);
         PageHelper.startPage(page,2);
-        List<Article> articleList = articleService.getArtilcelist();
+        List<Article> articleList = articleService307.getArtilcelist();
         PageInfo<Article> pageInfo = new PageInfo<Article>(articleList);
         model.addAttribute("pageInfo",pageInfo);
-        return"index.html";
+        return"index307.html";
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 @Mapper
-public interface ArticleDao {
+public interface ArticleDao307 {
     long countByExample(ArticleExample example);
 
     int deleteByExample(ArticleExample example);

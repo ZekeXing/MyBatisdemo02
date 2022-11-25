@@ -1,6 +1,6 @@
 package com.example.mybatisdemo01;
 
-import com.example.mybatisdemo01.Dao.ArticleMapper;
+import com.example.mybatisdemo01.Dao.ArticleMapper307;
 import com.example.mybatisdemo01.Dao.CommentMapper307;
 import com.example.mybatisdemo01.entity.Article;
 import com.example.mybatisdemo01.entity.Comment;
@@ -15,7 +15,7 @@ class MyBatisdemo01ApplicationTests {
     @Autowired
     CommentMapper307 commentMapper307;
     @Autowired
-    ArticleMapper articleMapper;
+    ArticleMapper307 articleMapper307;
     @Test
     void contextLoads() {
        Comment comment = commentMapper307.getCom(2);
@@ -34,7 +34,7 @@ class MyBatisdemo01ApplicationTests {
 
     @Test
     void getArticleTest(){
-        Article article[] = articleMapper.getArticle();
+        Article article[] = articleMapper307.getArticle();
         for (int i=0;i<article.length;i++) System.out.println(article[i]);
 
 
@@ -42,7 +42,7 @@ class MyBatisdemo01ApplicationTests {
 
     @Test
     void getArticleAndCommentTest(){
-        List<Article> list = articleMapper.getArticleAndComment(1);
+        List<Article> list = articleMapper307.getArticleAndComment(1);
         System.out.println(list);
 
     }
