@@ -16,4 +16,9 @@ public class ArticleService307 {
     public List<Article> getArtilcelist() {
         return dao.selectByExample();
     }
+
+
+    public int setFile307(Article article) {
+        return dao.setFile(article);
+    }
 }

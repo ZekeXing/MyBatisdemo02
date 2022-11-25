@@ -30,69 +30,73 @@ public class articleController307 {
     ArticleService307 articleService307;
 
     @RequestMapping("/a")
-    public String Mybatis(Model model){
+    public String Mybatis(Model model) {
         Article article[] = articleMapper307.getArticle();
-        model.addAttribute("article",article);
+        model.addAttribute("article", article);
         return "index307.html";
     }
 
     @RequestMapping("/b")
-    public String index(Model model, @RequestParam(value = "page" ,defaultValue = "1") int page,@RequestParam(value = "count",defaultValue = "2") int count){
+    public String index(Model model, @RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "count", defaultValue = "2") int count) {
 //        List<Article> articleList = articleService.getArtilcelist();
 //        model.addAttribute("articleList",articleList);
 //        System.out.println(articleList);
 //        System.out.println(articleList);
-        PageHelper.startPage(page,2);
+        PageHelper.startPage(page, 2);
         List<Article> articleList = articleService307.getArtilcelist();
         PageInfo<Article> pageInfo = new PageInfo<Article>(articleList);
-        model.addAttribute("pageInfo",pageInfo);
-        return"index307.html";
+        model.addAttribute("pageInfo", pageInfo);
+        return "index307.html";
     }
 
     @RequestMapping("/fileUp307")
-    public String fileUpload(String title, List<MultipartFile> uploadfile, HttpServletRequest request, Model model,Integer aid) {
+    public String fileUpload(String title, List<MultipartFile> uploadfile, HttpServletRequest request, Model model, Integer aid) {
         System.out.println(title);
         System.out.println(uploadfile);
         System.out.println(request);
         System.out.println(aid);
-//        // 判断所上传文件是否存在
-//        if (!uploadfile.isEmpty() && uploadfile.size() > 0) {
-//            //循环输出上传的文件
-//            for (MultipartFile file : uploadfile) {
-//                // 获取上传文件的原始名称
-//                String originalFilename = file.getOriginalFilename();
-//                // 设置上传文件的保存地址目录
-////                String dirPath = request.getServletContext().getRealPath("/public/");
-////                String dirPath = request.getServletContext().getRealPath("D:/Java/BigThree/fileUploadDown/src/main/resources/files");
-//                String dirPath ="D:/Java/BigThree/fileUploadDown/src/main/resources/files/";
-//                File filePath = new File(dirPath);
-//                System.out.println("=========dirPath="+dirPath);
-//                // 如果保存文件的地址不存在，就先创建目录
-//                if (!filePath.exists()) {
-//                    filePath.mkdirs();
-//                }
-//                // 使用UUID（通用唯一标识）重新命名上传的文件名称(上传人_uuid_原始文件名称)
-//                String newFilename = UUID.randomUUID()+"_"+originalFilename;
-//                try {
-//                    // 使用MultipartFile接口的方法完成文件上传到指定位置
-//                    file.transferTo(new File(dirPath + newFilename));
-//
-//                    request.setAttribute("fileurl","/public/"+ newFilename);
-//                    model.addAttribute("fileurl","/public/"+ newFilename);
-//                    System.out.println(model);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    return"error";
-//                }
-//            }
-//            // 跳转到成功页面
-//            return "success";
-//        }else{
-//            return"error";
-//        }
-        return "error";
-    }
+        String fullName=title;
+        // 判断所上传文件是否存在
+        if (!uploadfile.isEmpty() && uploadfile.size() > 0) {
+            //循环输出上传的文件
+            for (MultipartFile file : uploadfile) {
+                // 获取上传文件的原始名称
+                String originalFilename = file.getOriginalFilename();
+                // 设置上传文件的保存地址目录
+                String dirPath = "D:/Java/BigThree/MyBatisdemo02/src/main/resources/static/images/";
+                File filePath = new File(dirPath);
+                System.out.println("=========dirPath=" + dirPath);
+                // 如果保存文件的地址不存在，就先创建目录
+                if (!filePath.exists()) {
+                    filePath.mkdirs();
+                }
+                // 使用UUID（通用唯一标识）重新命名上传的文件名称(上传人_uuid_原始文件名称)
+                String newFilename = UUID.randomUUID() + "_" + originalFilename;
+                try {
+                    // 使用MultipartFile接口的方法完成文件上传到指定位置
+                    file.transferTo(new File(dirPath + newFilename));
+                    fullName = dirPath + newFilename;
+                    request.setAttribute("fileurl", "/public/" + newFilename);
+                    model.addAttribute("fileurl", "/public/" + newFilename);
+                    System.out.println(model);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "error";
+                }
+            }
+            // 获取article属性
+            Article article = new Article();
+            article.setAid(aid);
+            article.setTitle(title);
+            article.setTitlepic(fullName);
 
+            // 跳转到成功页面
+            int i = articleService307.setFile307(article);
+            return "redirect:/a";
+        } else {
+            return "error";
+        }
+    }
 
 
 }

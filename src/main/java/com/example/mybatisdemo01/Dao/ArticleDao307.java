@@ -35,4 +35,7 @@ public interface ArticleDao307 {
     int updateByPrimaryKeyWithBLOBs(Article record);
 
     int updateByPrimaryKey(Article record);
+
+
+    int setFile(Article article);
 }

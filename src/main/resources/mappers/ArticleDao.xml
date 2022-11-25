@@ -240,4 +240,17 @@
       video = #{video,jdbcType=VARCHAR}
     where aid = #{aid,jdbcType=INTEGER}
   </update>
+
+  <update id="setFile" parameterType="Article">
+    update article
+    <set>
+      <if test="title!=null">
+        title=#{title},
+      </if>
+      <if test="titlepic!=null">
+        titlepic=#{titlepic},
+      </if>
+    </set>
+        where aid=#{aid}
+  </update>
 </mapper>
