@@ -8,28 +8,32 @@
     <script src="/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
 </head>
 <script>
-    // function check(){
-    //     var name = document.getElementById("title").value;
-    //     var file = document.getElementById("uploadfile").value;
-    //     if(name==""){
-    //         alert("填写文件标题");
-    //         return false;
-    //     }
-    //     if(file.length==0||file==""){
-    //         alert("请选择上传文件");
-    //         return false;
-    //     }
-    //     return true;
-    // }
+    function check(){
+        var name = document.getElementById("title").value;
+        var file = document.getElementById("uploadfile").value;
+        if(name==""){
+            alert("填写文件标题");
+            return false;
+        }
+        if(file.length==0||file==""){
+            alert("请选择上传文件");
+            return false;
+        }
+        return true;
+    }
     function getid(id){
+        alert(id)
         $("#id").val(id)
+
     }
 </script>
 <body>
 <!--articlelist-->
 <div class="bg-info m-auto" th:each="row:${article}">
     <h3 class="text-muted" th:text="${row.title}"></h3>
-    <button type="button" class="btn btn-warning" data-bs-toggle="modal"  data-bs-target="#FileUp" th:data-id="${row.aid}" onclick="getid(this.getAttribute('data-id'))">上传文件</button>
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal"  data-bs-target="#FileUp"
+            th:data-id="${row.aid}"
+            onclick="getid(this.getAttribute('data-id'))">上传文件</button>
     <button type="button" class="btn btn-success" >下载文件</button>
 
     <p th:text="${row.content}"></p>
@@ -44,13 +48,13 @@
             <!-- 模态框头部 -->
             <div class="modal-header">
                 <h4 class="modal-title">文件上传</h4>
-                <input type="hidden" class="form-control" id="id" name="aid">
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <!-- 模态框内容 -->
-            <form role="form" th:action="@{/fileUp307/${row.aid} }"
-                  method="post" enctype="multipart/form-data" onsubmit="return check()">
+            <form role="aform"  method="post" enctype="multipart/form-data" onsubmit="return check()">
+                <input type="hidden" id="id" name="aid">
+
                 <div class="modal-body">
                     <div class="container">
 
@@ -76,6 +80,9 @@
         </div>
     </div>
 </div>
-
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/plugs/bootstrap-5.0.2-dist/js/bootstrap.js}"></script>
 </body>
+
+
 </html>
