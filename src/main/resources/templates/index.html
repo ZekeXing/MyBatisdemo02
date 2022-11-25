@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/bootstrap-5.0.2-dist/css/bootstrap.css" >
+    <script src="/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
+</head>
+<body>
+<ul class="pagination justify-content-center">
+    <li class="page-item" th:if="${pageInfo.hasPreviousPage}" >
+        <a class="page-link" th:href="@{'?page='+${pageInfo.prePage}}" >上一页</a>
+    </li>
+    <li th:class="${nav==pageInfo.pageNum}?'page-item active':'page-item'" th:each="nav : ${pageInfo.navigatepageNums}">
+        <a class="page-link" th:href="@{'?page='+${nav}}" th:text="${nav}"></a> </li>
+
+    <li class="page-item" th:if="${pageInfo.hasNextPage}">
+        <a class="page-link" th:href="@{'?page='+${pageInfo.nextPage}}">下一页</a>
+    </li>
+
+</ul>
+
+
+<div class="bg-info m-md-3" th:each="article:${pageInfo.list}">
+    <h3 th:text="${article.title}"/>
+    <p th:text="${article.content}"/>
+</div>11
+
+
+<!--<p th:text="${article[0]}"></p>-->
+<!--<p th:text="${article[1]}"></p>-->
+<!--<p th:text="${article[2]}"></p>-->
+<!--<p th:text="${article[3]}"></p>-->
+<!--<p th:text="${article[4]}"></p>-->
+<!--<p th:text="${article[5]}"></p>-->
+</body>
+</html>

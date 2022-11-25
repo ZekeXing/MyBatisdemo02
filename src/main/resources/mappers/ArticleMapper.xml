@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mybatisdemo01.Dao.ArticleMapper">
+	<!-- 查询商品分类列表-->
+	<select id="getArticle"  resultType="article">
+		select * from article
+	</select>
+
+	<select id="getArticleAndComment" resultMap="articleWithComment">
+		SELECT a.*,c.cid c_id,c.content c_content,c.author
+		FROM article a,comment c
+		WHERE a.aid=c.aid AND a.aid = #{aid}
+	</select>
+
+	<resultMap id="articleWithComment" type="Article">
+		<id property="aid" column="aid" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+<!--		<collection property="commentList" ofType="comment">-->
+<!--			<id property="cid" column="c_id"/>-->
+<!--			<result property=""-->
+<!--		</collection>-->
+		<collection property="commentList" ofType="Comment">
+			<id property="cid" column="c_id" />
+			<result property="content" column="c_content" />
+			<result property="author" column="author" />
+		</collection>
+	</resultMap>
+
+</mapper>
