@@ -35,7 +35,7 @@
             th:data-id="${row.aid}"
             onclick="getid(this.getAttribute('data-id'))">上传文件
     </button>
-    <button type="button" class="btn btn-success">下载文件</button>
+    <a type="button" class="btn btn-success" th:href="@{/fileDown307(filename=${row.titlepic})}">下载文件</a>
 
     <p th:text="${row.content}"></p>
 

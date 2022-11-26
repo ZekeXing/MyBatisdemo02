@@ -7,8 +7,14 @@ import com.example.mybatisdemo01.service.ArticleService307;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.apache.commons.io.FileUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,7 +62,7 @@ public class articleController307 {
         System.out.println(uploadfile);
         System.out.println(request);
         System.out.println(aid);
-        String fullName=title;
+        String fullName = title;
         // 判断所上传文件是否存在
         if (!uploadfile.isEmpty() && uploadfile.size() > 0) {
             //循环输出上传的文件
@@ -75,7 +82,7 @@ public class articleController307 {
                 try {
                     // 使用MultipartFile接口的方法完成文件上传到指定位置
                     file.transferTo(new File(dirPath + newFilename));
-                    fullName = dirPath + newFilename;
+                    fullName = newFilename;
                     request.setAttribute("fileurl", "/public/" + newFilename);
                     model.addAttribute("fileurl", "/public/" + newFilename);
                     System.out.println(model);
@@ -98,5 +105,48 @@ public class articleController307 {
         }
     }
 
+    // 所有类型文件下载管理
+    @GetMapping("/fileDown307")
+    public ResponseEntity<byte[]> fileDownload(HttpServletRequest request,
+                                               String filename) throws Exception {
+//        System.out.println(filename);
+        // 指定要下载的文件根路径
+        String dirPath = "D:\\Java\\BigThree\\MyBatisdemo02\\src\\main\\resources\\static\\images";
+        // 创建该文件对象
+        File file = new File(dirPath + File.separator + filename);
+        // 设置响应头
+        HttpHeaders headers = new HttpHeaders();
+        // 通知浏览器以下载方式打开（下载前对文件名进行转码）
+        filename = getFilename(request, filename);
+        headers.setContentDispositionFormData("attachment", filename);
+        // 定义以流的形式下载返回文件数据
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        try {
+            return new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<byte[]>(e.getMessage().getBytes(), HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 
+    // 根据浏览器的不同进行编码设置，返回编码后的文件名
+    private String getFilename(HttpServletRequest request, String filename)
+            throws Exception {
+        // IE不同版本User-Agent中出现的关键词
+        String[] IEBrowserKeyWords = {"MSIE", "Trident", "Edge"};
+        // 获取请求头代理信息
+        String userAgent = request.getHeader("User-Agent");
+        for (String keyWord : IEBrowserKeyWords) {
+            if (userAgent.contains(keyWord)) {
+                //IE内核浏览器，统一为UTF-8编码显示，并对转换的+进行更正
+                return URLEncoder.encode(filename, "UTF-8").replace("+", " ");
+            }
+        }
+        //火狐等其它浏览器统一为ISO-8859-1编码显示
+        return new String(filename.getBytes("UTF-8"), "ISO-8859-1");
+    }
 }
+
+
+
+
