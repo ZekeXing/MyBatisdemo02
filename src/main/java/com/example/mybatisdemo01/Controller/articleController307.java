@@ -2,8 +2,11 @@ package com.example.mybatisdemo01.Controller;
 
 import com.example.mybatisdemo01.Dao.ArticleDao307;
 import com.example.mybatisdemo01.Dao.ArticleMapper307;
+import com.example.mybatisdemo01.Dao.UserDao307;
 import com.example.mybatisdemo01.entity.Article;
+import com.example.mybatisdemo01.entity.User;
 import com.example.mybatisdemo01.service.ArticleService307;
+import com.example.mybatisdemo01.service.UserService307;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +18,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.net.URLEncoder;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,11 +36,41 @@ public class articleController307 {
     ArticleMapper307 articleMapper307;
     @Autowired
     ArticleDao307 articleDao307;
+@Autowired
+    UserService307 userService307;
 
     @Autowired
     ArticleService307 articleService307;
 
-    @RequestMapping("/a")
+    @RequestMapping("/toLogin307")
+    public String toLogin(Model model) {
+        System.out.println("执行控制000器处理方法");
+        model.addAttribute("currentYear", Calendar.getInstance().get(Calendar.YEAR));
+        return "login/login307";
+    }
+
+    @RequestMapping(value="/login")
+    public String login(User user, Model model, HttpSession session) {
+        // 获取用户名和密码
+        String username = user.getName();
+        String password = user.getPassword();
+        // 此处模拟从数据库中获取用户名和密码后进行判断
+//        String VPW = userService307.VerifyPW(username);
+//        System.out.println(VPW);
+        if(username != null && username.equals("xiaoxue")
+                && password != null && password.equals("123456")){
+            // 将用户对象添加到Session
+            session.setAttribute("USER_SESSION", user);
+            // 跳转到登录成功页面
+            return "forward:main307";
+        }
+        //登录信息验证失败，进行错误提示
+        model.addAttribute("msg", "用户名或密码错误，请重新登录！");
+        return "forward:toLogin307";
+    }
+
+
+    @RequestMapping("/main307")
     public String Mybatis(Model model) {
         Article article[] = articleMapper307.getArticle();
         model.addAttribute("article", article);
@@ -58,10 +92,7 @@ public class articleController307 {
 
     @RequestMapping("/fileUp307")
     public String fileUpload(String title, List<MultipartFile> uploadfile, HttpServletRequest request, Model model, Integer aid) {
-        System.out.println(title);
-        System.out.println(uploadfile);
-        System.out.println(request);
-        System.out.println(aid);
+
         String fullName = title;
         // 判断所上传文件是否存在
         if (!uploadfile.isEmpty() && uploadfile.size() > 0) {
@@ -99,7 +130,7 @@ public class articleController307 {
 
             // 跳转到成功页面
             int i = articleService307.setFile307(article);
-            return "redirect:/a";
+            return "redirect:/main307";
         } else {
             return "error";
         }
