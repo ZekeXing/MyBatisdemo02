@@ -21,4 +21,10 @@ public class ArticleService307 {
     public int setFile307(Article article) {
         return dao.setFile(article);
     }
+    public int testtt() {
+        dao.selectByExample();
+        return 1;
+    }
+
+
 }

@@ -44,7 +44,6 @@ public class articleController307 {
 
     @RequestMapping("/toLogin307")
     public String toLogin(Model model) {
-        System.out.println("执行控制000器处理方法");
         model.addAttribute("currentYear", Calendar.getInstance().get(Calendar.YEAR));
         return "login/login307";
     }
@@ -54,11 +53,9 @@ public class articleController307 {
         // 获取用户名和密码
         String username = user.getName();
         String password = user.getPassword();
-        // 此处模拟从数据库中获取用户名和密码后进行判断
-//        String VPW = userService307.VerifyPW(username);
-//        System.out.println(VPW);
-        if(username != null && username.equals("xiaoxue")
-                && password != null && password.equals("123456")){
+        String VPW = userService307.VerifyPW(user);
+        System.out.println(VPW);
+        if(username != null && password != null && password.equals(VPW)){
             // 将用户对象添加到Session
             session.setAttribute("USER_SESSION", user);
             // 跳转到登录成功页面

@@ -178,7 +178,7 @@
       `passWord` = #{password,jdbcType=VARCHAR}
     where `uid` = #{uid,jdbcType=INTEGER}
   </update>
-  <select id="selectPwByUsername" parameterType="String">
-    select passWord from user where name=username
+  <select id="selectPwByUsername" parameterType="com.example.mybatisdemo01.entity.User" resultType="String">
+    select passWord from user where name=#{name}
   </select>
 </mapper>

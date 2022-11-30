@@ -3,8 +3,10 @@ package com.example.mybatisdemo01.Dao;
 import com.example.mybatisdemo01.entity.User;
 import com.example.mybatisdemo01.entity.UserExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface UserDao307 {
     long countByExample(UserExample example);
 
@@ -28,5 +30,5 @@ public interface UserDao307 {
 
     int updateByPrimaryKey(User record);
 
-    String selectPwByUsername(String username);
+    String selectPwByUsername(User user);
 }
